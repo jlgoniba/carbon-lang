@@ -139,6 +139,7 @@ static auto ResolveUnformed(Nonnull<const Expression*> expression,
     case ExpressionKind::IntrinsicExpression:
     case ExpressionKind::UnimplementedExpression:
     case ExpressionKind::FunctionTypeLiteral:
+    case ExpressionKind::DeducedCapacityArrayTypeLiteral:
     case ExpressionKind::ArrayTypeLiteral:
     case ExpressionKind::InstantiateImpl:
       break;

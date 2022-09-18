@@ -270,6 +270,12 @@ void Expression::Print(llvm::raw_ostream& out) const {
       out << ")";
       break;
     }
+    case ExpressionKind::DeducedCapacityArrayTypeLiteral: {
+      const auto& deduced_capacity_array = cast<DeducedCapacityArrayTypeLiteral>(*this);
+      out << "[" << deduced_capacity_array.element_type_expression()
+          << ";" << "]";
+      break; 
+    }
     case ExpressionKind::ArrayTypeLiteral: {
       const auto& array_literal = cast<ArrayTypeLiteral>(*this);
       out << "[" << array_literal.element_type_expression() << "; "
@@ -343,6 +349,7 @@ void Expression::PrintID(llvm::raw_ostream& out) const {
     case ExpressionKind::IntrinsicExpression:
     case ExpressionKind::UnimplementedExpression:
     case ExpressionKind::FunctionTypeLiteral:
+    case ExpressionKind::DeducedCapacityArrayTypeLiteral:
     case ExpressionKind::ArrayTypeLiteral:
     case ExpressionKind::InstantiateImpl:
       out << "...";

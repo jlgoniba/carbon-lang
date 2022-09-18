@@ -240,7 +240,12 @@ static auto ResolveNames(Expression& expression,
       }
       break;
     }
-    case ExpressionKind::ArrayTypeLiteral: {
+    case ExpressionKind::DeducedCapacityArrayTypeLiteral: {
+      auto& dcatl = cast<DeducedCapacityArrayTypeLiteral>(expression);
+      CARBON_RETURN_IF_ERROR(ResolveNames(
+          dcatl.element_type_expression(), enclosing_scope));
+    }
+      case ExpressionKind::ArrayTypeLiteral: {
       auto& array_literal = cast<ArrayTypeLiteral>(expression);
       CARBON_RETURN_IF_ERROR(ResolveNames(
           array_literal.element_type_expression(), enclosing_scope));

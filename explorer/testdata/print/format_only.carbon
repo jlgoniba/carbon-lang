@@ -12,8 +12,14 @@
 
 package ExplorerTest api;
 
+choice Result {
+    Cancelled
+}
+
 fn Main() -> i32 {
-  var s: auto = "Hello world!";
-  Print(s);
+  var x: Result = Result.Cancelled();
+  var a: [String;] = ("a", "b", "c"); 
+//  Print(a[1]);
   return 0;
 }
+

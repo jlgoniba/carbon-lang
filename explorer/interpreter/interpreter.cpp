@@ -473,6 +473,7 @@ auto Interpreter::StepLvalue() -> ErrorOr<Success> {
     case ExpressionKind::WhereExpression:
     case ExpressionKind::DotSelfExpression:
     case ExpressionKind::ArrayTypeLiteral:
+    case ExpressionKind::DeducedCapacityArrayTypeLiteral:
     case ExpressionKind::InstantiateImpl:
       CARBON_FATAL() << "Can't treat expression as lvalue: " << exp;
     case ExpressionKind::UnimplementedExpression:
@@ -1399,6 +1400,16 @@ auto Interpreter::StepExp() -> ErrorOr<Success> {
       } else {
         return todo_.FinishAction(arena_->New<StaticArrayType>(
             act.results()[0], cast<IntValue>(act.results()[1])->value()));
+      }
+    }
+    case ExpressionKind::DeducedCapacityArrayTypeLiteral: {
+      const auto& dcatl = cast<DeducedCapacityArrayTypeLiteral>(exp);
+      if (act.pos() == 0) {
+        return todo_.Spawn(std::make_unique<ExpressionAction>(
+            &dcatl.element_type_expression()));
+      } else {
+        return todo_.FinishAction(arena_->New<StaticArrayType>(
+            act.results()[0]);
       }
     }
   }  // switch (exp->kind)
